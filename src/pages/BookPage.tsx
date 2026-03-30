@@ -91,7 +91,7 @@ const BookPage = () => {
   }
 
   return (
-    <div className="pt-28 pb-32 bg-atelier-bg min-h-screen relative overflow-hidden">
+    <div className="pt-24 md:pt-28 pb-20 md:pb-32 bg-atelier-bg min-h-screen relative overflow-hidden">
       {/* LaserFlow Background */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
         <LaserFlow color="#C9B99A" fogIntensity={0.6} wispDensity={1.2} />
@@ -110,7 +110,7 @@ const BookPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-serif text-[#3D2B1F]"
+          className="text-4xl md:text-7xl font-serif text-[#3D2B1F]"
         >
           Book Your Ritual
         </motion.h1>
@@ -175,7 +175,7 @@ const BookPage = () => {
 
               <div>
                 <label className="text-[10px] uppercase tracking-widest text-[#8B7355] mb-3 block">Select Time</label>
-                <div className="grid grid-cols-4 gap-3">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                   {timeSlots.map(time => (
                     <button
                       key={time}

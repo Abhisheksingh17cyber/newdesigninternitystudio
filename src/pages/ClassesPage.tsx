@@ -63,7 +63,7 @@ const ClassesPage = () => {
   ];
 
   return (
-    <div className="pt-28 pb-32 bg-atelier-bg">
+    <div className="pt-24 md:pt-28 pb-20 md:pb-32 bg-atelier-bg">
       {/* Header */}
       <div className="text-center px-6 mb-20">
         <motion.span
@@ -77,7 +77,7 @@ const ClassesPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-serif text-[#3D2B1F]"
+          className="text-4xl md:text-7xl font-serif text-[#3D2B1F]"
         >
           Our Disciplines
         </motion.h1>

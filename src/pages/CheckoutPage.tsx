@@ -77,7 +77,7 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div className="pt-28 pb-32 bg-atelier-bg min-h-screen">
+    <div className="pt-24 md:pt-28 pb-20 md:pb-32 bg-atelier-bg min-h-screen">
       {/* Header */}
       <div className="max-w-6xl mx-auto px-6 mb-12">
         <button

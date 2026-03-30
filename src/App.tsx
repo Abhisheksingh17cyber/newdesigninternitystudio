@@ -107,33 +107,22 @@ export default function App() {
       <div className="min-h-screen selection:bg-atelier-accent selection:text-white">
       <ScrollToTop />
 
-      {/* Fixed Logo — Top Left */}
-      <Link to="/" className="fixed top-4 left-6 z-[101] flex items-center justify-center bg-[#1a1410] rounded-xl px-1.5 py-0.5 shadow-lg hover:bg-[#2a2118] transition-colors duration-300">
-        <img
-          src="/logo.png"
-          alt="Avéa Logo"
-          className="h-16 md:h-[4.5rem] w-auto object-contain scale-110"
-          style={{ filter: 'brightness(1.8)' }}
-        />
-      </Link>
+      {/* Top Header */}
+      <header className="fixed top-0 left-0 right-0 z-[101] px-4 py-4 md:px-6 md:py-6 flex justify-between items-center pointer-events-none">
+        {/* Logo Container */}
+        <div className="flex-1 flex justify-start pointer-events-auto">
+          <Link to="/" className="flex items-center justify-center bg-[#1a1410] rounded-xl px-1.5 py-0.5 shadow-lg hover:bg-[#2a2118] transition-colors duration-300">
+            <img
+              src="/logo.png"
+              alt="Avéa Logo"
+              className="h-10 md:h-[4.5rem] w-auto object-contain scale-110"
+              style={{ filter: 'brightness(1.8)' }}
+            />
+          </Link>
+        </div>
 
-      {/* Cart Button — Top Right */}
-      <button
-        onClick={() => setIsCartOpen(true)}
-        className="fixed top-6 right-6 z-[101] bg-[#5C3D2E] text-[#F5F0E8] w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-[#7A5C4F] transition-colors duration-300 group"
-        aria-label="Open cart"
-      >
-        <ShoppingBag size={18} className="group-hover:scale-110 transition-transform" />
-        {totalItems > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
-            {totalItems}
-          </span>
-        )}
-      </button>
-
-      {/* Centered Pill Navigation */}
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] pointer-events-none w-full max-w-7xl px-4 md:px-6 flex justify-center">
-        <div className="pointer-events-auto">
+        {/* Centered Pill Navigation */}
+        <div className="flex-shrink-0 pointer-events-auto flex justify-center">
           <PillNav
             logo={null}
             items={navItems}
@@ -144,7 +133,23 @@ export default function App() {
             hoveredPillTextColor="#3D2B1F"
           />
         </div>
-      </div>
+
+        {/* Cart Container */}
+        <div className="flex-1 flex justify-end pointer-events-auto">
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="bg-[#5C3D2E] text-[#F5F0E8] w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-[#7A5C4F] transition-colors duration-300 group relative"
+            aria-label="Open cart"
+          >
+            <ShoppingBag size={18} className="group-hover:scale-110 transition-transform" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+          </button>
+        </div>
+      </header>
 
       {/* Page Content */}
       <main>

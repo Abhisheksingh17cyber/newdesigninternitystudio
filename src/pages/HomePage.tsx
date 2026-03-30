@@ -22,7 +22,7 @@ const Hero = ({ onBook }: { onBook: () => void }) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="text-5xl md:text-[110px] font-serif mb-12 leading-[0.95] tracking-tight text-[#3D2B1F]"
+          className="text-4xl sm:text-5xl md:text-[110px] font-serif mb-12 leading-[0.95] tracking-tight text-[#3D2B1F]"
         >
           Where Wellness <br /> Becomes an Art.
         </motion.h1>
@@ -65,7 +65,7 @@ const HomePage = () => {
       <Hero onBook={() => navigate('/book')} />
       <FeaturedIn />
 
-      <section className="py-32 px-6 max-w-4xl mx-auto text-center">
+      <section className="py-20 md:py-32 px-6 max-w-4xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-32 px-6 bg-[#5C3D2E] text-white text-center">
+      <section className="py-20 md:py-32 px-6 bg-[#5C3D2E] text-white text-center">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-serif mb-10">Ready to begin?</h2>
           <button

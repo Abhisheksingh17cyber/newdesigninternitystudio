@@ -1,20 +1,38 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Avéa Wellness Studio
 
-# Run and deploy your AI Studio app
+A premium, responsive React web application built for the Avéa Wellness Studio. This project includes fully responsive multi-page routing, sophisticated layout styling, and animated components to deliver a calming and high-end digital experience.
 
-This contains everything you need to run your app locally.
+## Features
+- **Responsive Navigation**: Adaptive header layout with custom animations (GSAP).
+- **Mobile-first Layouts**: Fluid typography and grid systems perfectly scaled to all screen sizes.
+- **Routing**: Client-side single-page routing with `react-router-dom`.
+- **Cart & Booking**: Frontend mockups for booking and shop discovery (includes state management via `CartContext`).
 
-View your app in AI Studio: https://ai.studio/apps/19d49411-0b4b-44d2-8968-b32d3b0b100b
+## Tech Stack
+- Frontend: React (Vite) + TypeScript
+- Styling: Tailwind CSS
+- Animation: GSAP, Motion (Framer Motion)
+- Icons: Lucide React
 
-## Run Locally
+## Local Development
 
-**Prerequisites:**  Node.js
-
+**Prerequisites:** Node.js (v18+)
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   ```bash
+   npm install
+   ```
+
+2. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Build for production:
+   ```bash
+   npm run build
+   ```
+
+## Deployment
+This project is fully configured for deployment on **Vercel**. 
+The root `vercel.json` provides the correct routing rewrite rules so inner-page navigation deep-links function without returning 404 errors.

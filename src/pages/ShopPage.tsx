@@ -65,7 +65,7 @@ const ShopPage = () => {
   };
 
   return (
-    <div className="pt-28 pb-32 bg-atelier-bg">
+    <div className="pt-24 md:pt-28 pb-20 md:pb-32 bg-atelier-bg">
       {/* Header */}
       <div className="px-6 max-w-7xl mx-auto mb-20">
         <motion.span
@@ -79,7 +79,7 @@ const ShopPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-serif text-[#3D2B1F]"
+          className="text-4xl md:text-7xl font-serif text-[#3D2B1F]"
         >
           Curated Essentials
         </motion.h1>

@@ -10,8 +10,8 @@
 
 @media (max-width: 768px) {
   .pill-nav-container {
-    width: 100%;
-    left: 0;
+    width: auto;
+    left: auto;
   }
 }
 
@@ -29,9 +29,10 @@
 
 @media (max-width: 768px) {
   .pill-nav {
-    width: 100%;
-    justify-content: space-between;
-    padding: 0 24px;
+    --nav-h: 40px;
+    width: auto;
+    justify-content: center;
+    padding: 0;
     background: transparent;
   }
 }
@@ -206,8 +207,8 @@
 }
 
 .mobile-menu-popover {
-  position: absolute;
-  top: 3em;
+  position: fixed;
+  top: 80px;
   left: 1rem;
   right: 1rem;
   background: var(--base, #f0f0f0);
