@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Send, MapPin, Clock, Mail, Phone } from 'lucide-react';
+import Stepper, { Step } from '../components/Stepper';
 
 const ContactPage = () => {
   const [formState, setFormState] = useState({ firstName: '', lastName: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     // In production, this would send to your backend
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
@@ -108,10 +108,13 @@ const ContactPage = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="bg-white p-8 md:p-12 shadow-sm border border-[#C9B99A]/10"
+          className="relative"
         >
+          {/* Subtle aurora glow effect from the image */}
+          <div className="absolute -left-20 top-0 w-64 h-full bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+          
           {submitted ? (
-            <div className="flex flex-col items-center justify-center h-full text-center py-20">
+            <div className="bg-white p-8 md:p-12 shadow-sm border border-[#C9B99A]/10 flex flex-col items-center justify-center h-full text-center py-20">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
                 <Send size={24} className="text-green-600" />
               </div>
@@ -119,59 +122,61 @@ const ContactPage = () => {
               <p className="text-sm text-[#8B7355]">We'll be in touch within 24 hours.</p>
             </div>
           ) : (
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="firstName" className="text-[10px] uppercase tracking-widest text-[#8B7355] mb-2 block">First Name</label>
-                  <input 
-                    id="firstName"
-                    type="text" 
-                    value={formState.firstName}
-                    onChange={(e) => setFormState(p => ({ ...p, firstName: e.target.value }))}
-                    required
-                    className="w-full bg-atelier-bg border border-[#C9B99A]/10 p-3 text-sm focus:outline-none focus:border-[#8B7355] transition-colors" 
-                  />
+            <Stepper
+              onFinalStepCompleted={handleSubmit}
+              backButtonText="Previous"
+              nextButtonText="Continue"
+            >
+              <Step>
+                <div className="space-y-6 pt-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="firstName" className="text-[10px] uppercase tracking-widest text-[#8B7355] mb-2 block">First Name</label>
+                      <input 
+                        id="firstName"
+                        type="text" 
+                        value={formState.firstName}
+                        onChange={(e) => setFormState(p => ({ ...p, firstName: e.target.value }))}
+                        className="w-full bg-[#fcfbfa] border border-[#C9B99A]/20 p-3 text-sm focus:outline-none focus:border-[#8B7355] transition-colors" 
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="lastName" className="text-[10px] uppercase tracking-widest text-[#8B7355] mb-2 block">Last Name</label>
+                      <input 
+                        id="lastName"
+                        type="text" 
+                        value={formState.lastName}
+                        onChange={(e) => setFormState(p => ({ ...p, lastName: e.target.value }))}
+                        className="w-full bg-[#fcfbfa] border border-[#C9B99A]/20 p-3 text-sm focus:outline-none focus:border-[#8B7355] transition-colors" 
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="contactEmail" className="text-[10px] uppercase tracking-widest text-[#8B7355] mb-2 block">Email Address</label>
+                    <input 
+                      id="contactEmail"
+                      type="email" 
+                      value={formState.email}
+                      onChange={(e) => setFormState(p => ({ ...p, email: e.target.value }))}
+                      className="w-full bg-[#fcfbfa] border border-[#C9B99A]/20 p-3 text-sm focus:outline-none focus:border-[#8B7355] transition-colors" 
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="lastName" className="text-[10px] uppercase tracking-widest text-[#8B7355] mb-2 block">Last Name</label>
-                  <input 
-                    id="lastName"
-                    type="text" 
-                    value={formState.lastName}
-                    onChange={(e) => setFormState(p => ({ ...p, lastName: e.target.value }))}
-                    required
-                    className="w-full bg-atelier-bg border border-[#C9B99A]/10 p-3 text-sm focus:outline-none focus:border-[#8B7355] transition-colors" 
-                  />
+              </Step>
+              <Step>
+                <div className="space-y-6 pt-4">
+                  <div>
+                    <label htmlFor="message" className="text-[10px] uppercase tracking-widest text-[#8B7355] mb-2 block">Message</label>
+                    <textarea 
+                      id="message"
+                      value={formState.message}
+                      onChange={(e) => setFormState(p => ({ ...p, message: e.target.value }))}
+                      className="w-full bg-[#fcfbfa] border border-[#C9B99A]/20 p-3 text-sm focus:outline-none focus:border-[#8B7355] transition-colors min-h-[160px] resize-none" 
+                    />
+                  </div>
                 </div>
-              </div>
-              <div>
-                <label htmlFor="contactEmail" className="text-[10px] uppercase tracking-widest text-[#8B7355] mb-2 block">Email Address</label>
-                <input 
-                  id="contactEmail"
-                  type="email" 
-                  value={formState.email}
-                  onChange={(e) => setFormState(p => ({ ...p, email: e.target.value }))}
-                  required
-                  className="w-full bg-atelier-bg border border-[#C9B99A]/10 p-3 text-sm focus:outline-none focus:border-[#8B7355] transition-colors" 
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="text-[10px] uppercase tracking-widest text-[#8B7355] mb-2 block">Message</label>
-                <textarea 
-                  id="message"
-                  value={formState.message}
-                  onChange={(e) => setFormState(p => ({ ...p, message: e.target.value }))}
-                  required
-                  className="w-full bg-atelier-bg border border-[#C9B99A]/10 p-3 text-sm focus:outline-none focus:border-[#8B7355] transition-colors min-h-[120px] resize-none" 
-                />
-              </div>
-              <button 
-                type="submit"
-                className="btn w-full gap-2"
-              >
-                <Send size={14} /> Send Message
-              </button>
-            </form>
+              </Step>
+            </Stepper>
           )}
         </motion.div>
       </div>
