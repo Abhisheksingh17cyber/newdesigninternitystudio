@@ -4,10 +4,12 @@ import { ArrowRight, ShoppingBag } from 'lucide-react';
 import PillNav from './components/PillNav';
 import CartDrawer from './components/CartDrawer';
 import ClickSpark from './components/ClickSpark';
+import SplashCursor from './components/SplashCursor';
 import { useCart } from './context/CartContext';
 
 // Pages
 import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
 import ClassesPage from './pages/ClassesPage';
 import ShopPage from './pages/ShopPage';
 import ContactPage from './pages/ContactPage';
@@ -31,6 +33,7 @@ const Footer = () => {
           <ul className="space-y-4">
             {[
               { label: 'Home', to: '/' },
+              { label: 'About', to: '/about' },
               { label: 'Classes', to: '/classes' },
               { label: 'Shop', to: '/shop' },
               { label: 'Book', to: '/book' },
@@ -96,6 +99,7 @@ export default function App() {
 
   const navItems = [
     { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
     { label: 'Classes', href: '/classes' },
     { label: 'Shop', href: '/shop' },
     { label: 'Contact', href: '/contact' },
@@ -104,6 +108,7 @@ export default function App() {
 
   return (
     <ClickSpark sparkColor="#5C3D2E" sparkSize={10} sparkRadius={20} sparkCount={10} duration={500}>
+      <SplashCursor />
       <div className="min-h-screen selection:bg-atelier-accent selection:text-white">
       <ScrollToTop />
 
@@ -155,6 +160,7 @@ export default function App() {
       <main>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/classes" element={<ClassesPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/contact" element={<ContactPage />} />

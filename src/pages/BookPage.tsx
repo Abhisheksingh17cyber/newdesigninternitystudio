@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Calendar, Clock, CreditCard, CheckCircle } from 'lucide-react';
 import LaserFlow from '../components/LaserFlow';
+import ShapeBlur from '../components/ShapeBlur';
 
 const classes = [
   { id: 'sculpt-flow', name: 'Sculpt & Flow', price: 45, duration: '60 min' },
@@ -42,8 +43,9 @@ const BookPage = () => {
   if (isConfirmed) {
     return (
       <div className="pt-28 pb-32 bg-atelier-bg min-h-screen relative overflow-hidden">
-        {/* LaserFlow Background */}
+        {/* Background Effects */}
         <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+          <ShapeBlur variation={0} shapeSize={1.2} roundness={0.4} borderSize={0.05} />
           <LaserFlow color="#C9B99A" fogIntensity={0.6} />
         </div>
         <motion.div 
@@ -63,7 +65,7 @@ const BookPage = () => {
           </p>
           <div className="bg-white p-6 border border-[#C9B99A]/20 mb-8 text-left">
             <div className="flex justify-between mb-3">
-              <span className="text-sm text-[#8B7355]">Class</span>
+               <span className="text-sm text-[#8B7355]">Class</span>
               <span className="text-sm font-medium text-[#3D2B1F]">{selectedClassData?.name}</span>
             </div>
             <div className="flex justify-between mb-3">
@@ -92,13 +94,14 @@ const BookPage = () => {
 
   return (
     <div className="pt-24 md:pt-28 pb-20 md:pb-32 bg-atelier-bg min-h-screen relative overflow-hidden">
-      {/* LaserFlow Background */}
+      {/* Background Effects */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
+        <ShapeBlur className="w-full h-full absolute inset-0 pointer-events-auto" variation={0} shapeSize={1.2} roundness={0.4} borderSize={0.05} />
         <LaserFlow color="#C9B99A" fogIntensity={0.6} wispDensity={1.2} />
       </div>
 
       {/* Header */}
-      <div className="text-center px-6 mb-16 relative z-10">
+      <div className="text-center px-6 mb-16 relative z-10 pointer-events-none">
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

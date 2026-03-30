@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
+import Carousel from '../components/Carousel';
 
 const ClassesPage = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const ClassesPage = () => {
   ];
 
   return (
-    <div className="pt-24 md:pt-28 pb-20 md:pb-32 bg-atelier-bg">
+    <div className="pt-24 md:pt-28 pb-20 md:pb-32 bg-atelier-bg overflow-x-hidden">
       {/* Header */}
       <div className="text-center px-6 mb-20">
         <motion.span
@@ -89,43 +90,14 @@ const ClassesPage = () => {
         />
       </div>
 
-      {/* Classes Grid */}
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-        {services.map((service, i) => (
-          <motion.div
-            key={service.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.6 }}
-            whileHover={{ y: -8 }}
-            className="group cursor-pointer"
-          >
-            <div className="aspect-[3/4] overflow-hidden mb-6 bg-[#E8E0D4]">
-              <img
-                src={service.image}
-                alt={service.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#8B7355] border border-[#C9B99A]/30 px-3 py-1">{service.duration}</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#8B7355] border border-[#C9B99A]/30 px-3 py-1">{service.level}</span>
-            </div>
-            <h3 className="text-2xl font-serif mb-2 text-[#3D2B1F]">{service.title}</h3>
-            <p className="text-sm text-[#8B7355] leading-relaxed mb-4">{service.description}</p>
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-serif text-[#5C3D2E]">${service.price} <span className="text-xs text-[#8B7355]">/ session</span></span>
-              <button
-                onClick={() => navigate(`/book?class=${service.id}`)}
-                className="btn"
-              >
-                Book Now
-              </button>
-            </div>
-          </motion.div>
-        ))}
+      {/* Classes Carousel */}
+      <div className="w-full">
+         <Carousel 
+            items={services} 
+            baseWidth={380} 
+            loop={true} 
+            autoplay={false}
+         />
       </div>
 
       {/* Schedule CTA */}

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ShoppingBag, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import GradualBlur from '../components/GradualBlur';
 
 const ShopPage = () => {
   const { addToCart } = useCart();
@@ -65,7 +66,7 @@ const ShopPage = () => {
   };
 
   return (
-    <div className="pt-24 md:pt-28 pb-20 md:pb-32 bg-atelier-bg">
+    <div className="pt-24 md:pt-28 pb-20 md:pb-32 bg-atelier-bg relative">
       {/* Header */}
       <div className="px-6 max-w-7xl mx-auto mb-20">
         <motion.span
@@ -92,7 +93,7 @@ const ShopPage = () => {
       </div>
 
       {/* Products Grid */}
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 relative z-10">
         {products.map((product, i) => (
           <motion.div
             key={product.id}
@@ -102,17 +103,18 @@ const ShopPage = () => {
             transition={{ delay: i * 0.1 }}
             className="group"
           >
-            <div className="aspect-square overflow-hidden mb-6 bg-[#E8E0D4]">
+            <div className="relative aspect-square overflow-hidden mb-6 bg-[#E8E0D4]">
               <img
                 src={product.image}
                 alt={product.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 referrerPolicy="no-referrer"
               />
+              <GradualBlur preset="bottom" opacity={0.6} />
             </div>
-            <h3 className="text-xl font-serif mb-1 text-[#3D2B1F]">{product.name}</h3>
-            <p className="text-sm text-[#8B7355] leading-relaxed mb-3">{product.description}</p>
-            <div className="flex items-center justify-between mt-4">
+            <h3 className="text-xl font-serif mb-1 text-[#3D2B1F] relative z-20">{product.name}</h3>
+            <p className="text-sm text-[#8B7355] leading-relaxed mb-3 relative z-20">{product.description}</p>
+            <div className="flex items-center justify-between mt-4 relative z-20">
               <span className="text-lg font-serif text-[#5C3D2E]">${product.price}</span>
               <button
                 onClick={() => handleAddToCart(product)}
@@ -130,6 +132,9 @@ const ShopPage = () => {
           </motion.div>
         ))}
       </div>
+      
+      {/* Page bottom blur for effect */}
+      <GradualBlur preset="page-footer" />
     </div>
   );
 };
