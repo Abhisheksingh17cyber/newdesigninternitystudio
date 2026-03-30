@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, useLocation, useNavigate, Link } from 'react-router-dom';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
-import PillNav from './components/PillNav';
+import StaggeredMenu from './components/StaggeredMenu';
 import CartDrawer from './components/CartDrawer';
 import ClickSpark from './components/ClickSpark';
 import SplashCursor from './components/SplashCursor';
@@ -112,49 +112,45 @@ export default function App() {
       <div className="min-h-screen selection:bg-atelier-accent selection:text-white">
       <ScrollToTop />
 
-      {/* Top Header */}
-      <header className="fixed top-0 left-0 right-0 z-[101] px-4 py-4 md:px-6 md:py-6 flex justify-between items-center pointer-events-none">
-        {/* Logo Container */}
-        <div className="flex-1 flex justify-start pointer-events-auto">
-          <Link to="/" className="flex items-center justify-center bg-[#1a1410] rounded-xl px-1.5 py-0.5 shadow-lg hover:bg-[#2a2118] transition-colors duration-300">
-            <img
-              src="/logo.png"
-              alt="Avéa Logo"
-              className="h-10 md:h-[4.5rem] w-auto object-contain scale-110"
-              style={{ filter: 'brightness(1.8)' }}
-            />
-          </Link>
-        </div>
+      {/* Staggered Navigation Menu */}
+      <StaggeredMenu
+        position="right"
+        isFixed={true}
+        menuButtonColor="#5C3D2E"
+        openMenuButtonColor="#3D2B1F"
+        accentColor="#7A5C4F"
+        logoUrl="/logo.png"
+        colors={['#F5F0E8', '#EAE0CD']}
+        items={[
+          { label: 'Home', ariaLabel: 'Home', link: '/' },
+          { label: 'About', ariaLabel: 'About Us', link: '/about' },
+          { label: 'Classes', ariaLabel: 'Classes', link: '/classes' },
+          { label: 'Shop', ariaLabel: 'Shop', link: '/shop' },
+          { label: 'Book', ariaLabel: 'Book Now', link: '/book' },
+          { label: 'Contact', ariaLabel: 'Contact', link: '/contact' }
+        ]}
+        socialItems={[
+          { label: 'Instagram', link: '#' },
+          { label: 'Twitter', link: '#' },
+          { label: 'LinkedIn', link: '#' }
+        ]}
+      />
 
-        {/* Centered Pill Navigation */}
-        <div className="flex-shrink-0 pointer-events-auto flex justify-center">
-          <PillNav
-            logo={null}
-            items={navItems}
-            activeHref={location.pathname}
-            baseColor="rgba(245, 240, 232, 0.85)"
-            pillColor="#5C3D2E"
-            pillTextColor="#F5F0E8"
-            hoveredPillTextColor="#3D2B1F"
-          />
-        </div>
-
-        {/* Cart Container */}
-        <div className="flex-1 flex justify-end pointer-events-auto">
-          <button
-            onClick={() => setIsCartOpen(true)}
-            className="bg-[#5C3D2E] text-[#F5F0E8] w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-[#7A5C4F] transition-colors duration-300 group relative"
-            aria-label="Open cart"
-          >
-            <ShoppingBag size={18} className="group-hover:scale-110 transition-transform" />
-            {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                {totalItems}
-              </span>
-            )}
-          </button>
-        </div>
-      </header>
+      {/* Floating Cart Button (Bottom Right) */}
+      <div className="fixed bottom-6 md:bottom-10 right-6 md:right-10 z-[101] pointer-events-auto">
+        <button
+          onClick={() => setIsCartOpen(true)}
+          className="bg-[#5C3D2E] text-[#F5F0E8] w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-2xl hover:bg-[#7A5C4F] transition-all duration-300 group relative hover:scale-105"
+          aria-label="Open cart"
+        >
+          <ShoppingBag size={22} className="group-hover:scale-110 transition-transform" />
+          {totalItems > 0 && (
+            <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-[12px] font-bold w-6 h-6 rounded-full flex items-center justify-center shadow-md">
+              {totalItems}
+            </span>
+          )}
+        </button>
+      </div>
 
       {/* Page Content */}
       <main>
