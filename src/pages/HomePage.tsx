@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import CurvedLoop from '../components/CurvedLoop';
+import TrueFocus from '../components/TrueFocus';
 
 const Hero = ({ onBook }: { onBook: () => void }) => {
   return (
@@ -84,7 +85,16 @@ const HomePage = () => {
       {/* CTA Section */}
       <section className="py-20 md:py-32 px-6 bg-[#5C3D2E] text-white text-center">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-serif mb-10">Ready to begin?</h2>
+          <div className="mb-10 w-full flex justify-center">
+            <TrueFocus 
+              sentence="Ready to begin?" 
+              manualMode={false} 
+              blurAmount={5} 
+              borderColor="rgba(245, 240, 232, 0.8)" 
+              glowColor="rgba(245, 240, 232, 0.4)" 
+              className="text-4xl md:text-6xl font-serif"
+            />
+          </div>
           <button
             onClick={() => navigate('/book')}
             className="btn"
