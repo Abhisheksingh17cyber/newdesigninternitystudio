@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Inter", sans-serif;
+
+  --color-atelier-bg: #FCFAF7;
+  --color-atelier-text: #1A1A1A;
+  --color-atelier-accent: #B2A496;
+  --color-atelier-surface: #FFFFFF;
+  --color-atelier-cta: #000000;
+}
+
+@layer base {
+  body {
+    @apply bg-atelier-bg text-atelier-text font-sans antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+.markdown-body {
+  @apply font-sans leading-relaxed;
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  @apply font-serif mt-6 mb-4;
+}
+
+.markdown-body p {
+  @apply mb-4;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+@layer components {
+  /* From Uiverse.io by CristianMontoya98 */ 
+  .btn {
+    min-width: 6.5em;
+    min-height: 2.3em;
+    padding: 0.25em 1em;
+    background: #5C3D2E;
+    color: #F5F0E8;
+    border: none;
+    border-radius: 0.625em;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* Ensuring it follows standard aesthetic */
+  }
+
+  .btn:hover {
+    color: #5C3D2E;
+  }
+
+  .btn:after {
+    content: "";
+    background: #F5F0E8;
+    position: absolute;
+    z-index: -1;
+    left: -20%;
+    right: -20%;
+    top: 0;
+    bottom: 0;
+    transform: skewX(-45deg) scale(0, 1);
+    transition: all 0.5s;
+  }
+
+  .btn:hover:after {
+    transform: skewX(-45deg) scale(1, 1);
+    -webkit-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+}
