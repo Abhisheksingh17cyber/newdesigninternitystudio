@@ -126,7 +126,8 @@ export default function DomeGallery({
   openedImageHeight = '400px',
   imageBorderRadius = '30px',
   openedImageBorderRadius = '30px',
-  grayscale = true
+  grayscale = true,
+  autoRotateSpeed = 0.05
 }) {
   const rootRef = useRef(null);
   const mainRef = useRef(null);
@@ -149,6 +150,7 @@ export default function DomeGallery({
   const openingRef = useRef(false);
   const openStartedAtRef = useRef(0);
   const lastDragEndAt = useRef(0);
+  const autoRotateRAF = useRef(null);
 
   const scrollLockedRef = useRef(false);
   const lockScroll = useCallback(() => {
@@ -261,6 +263,22 @@ export default function DomeGallery({
   useEffect(() => {
     applyTransform(rotationRef.current.x, rotationRef.current.y);
   }, []);
+
+  useEffect(() => {
+    if (!autoRotateSpeed) return;
+    const loop = () => {
+      if (!draggingRef.current && !focusedElRef.current && !inertiaRAF.current) {
+        const nextY = wrapAngleSigned(rotationRef.current.y - autoRotateSpeed);
+        rotationRef.current = { ...rotationRef.current, y: nextY };
+        applyTransform(rotationRef.current.x, nextY);
+      }
+      autoRotateRAF.current = requestAnimationFrame(loop);
+    };
+    autoRotateRAF.current = requestAnimationFrame(loop);
+    return () => {
+      if (autoRotateRAF.current) cancelAnimationFrame(autoRotateRAF.current);
+    };
+  }, [autoRotateSpeed]);
 
   const stopInertia = useCallback(() => {
     if (inertiaRAF.current) {

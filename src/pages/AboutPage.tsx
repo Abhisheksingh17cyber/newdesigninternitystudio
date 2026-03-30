@@ -38,10 +38,11 @@ const AboutPage = () => {
           >
             <DomeGallery 
               overlayBlurColor="#F5F0E8"
-              minRadius={300}
-              maxRadius={800}
-              fit={0.65}
-              grayscale={true}
+              minRadius={450}
+              maxRadius={900}
+              fit={1.1}
+              grayscale={false}
+              autoRotateSpeed={0.08}
             />
           </motion.div>
         </div>
