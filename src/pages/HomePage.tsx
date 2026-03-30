@@ -25,7 +25,7 @@ const Hero = ({ onBook }: { onBook: () => void }) => {
           transition={{ duration: 1, delay: 0.4 }}
           className="text-4xl sm:text-5xl md:text-[110px] font-serif mb-12 leading-[0.95] tracking-tight text-[#3D2B1F]"
         >
-          Where Wellness <br /> Becomes an Art.
+          I build websites that <br /> turn visitors into clients.
         </motion.h1>
         <motion.div
           initial={{ opacity: 0 }}
