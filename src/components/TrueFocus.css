@@ -1,0 +1,27 @@
+.true-focus-container {
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Dynamic values set via JS: --border-color, --glow-color, --tf-blur, --tf-duration */
+  --border-color: green;
+  --glow-color: rgba(0, 255, 0, 0.6);
+  --tf-blur: 5px;
+  --tf-duration: 0.5s;
+}
+
+.true-focus-word {
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+  filter: blur(var(--tf-blur));
+  transition: filter var(--tf-duration) ease;
+}
+
+.true-focus-word.is-active {
+  filter: blur(0px);
+}
+
+.true-focus-corner {
+  border-color: var(--border-color);
+  filter: drop-shadow(0 0 4px var(--border-color));
+}

@@ -69,6 +69,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   const colorTweenRef = useRef<gsap.core.Tween | null>(null);
 
   const toggleBtnRef = useRef<HTMLButtonElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
   const busyRef = useRef(false);
 
   const itemEntranceTweenRef = useRef<gsap.core.Tween | null>(null);
@@ -296,6 +297,12 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
     }
   }, [changeMenuColorOnOpen, menuButtonColor, openMenuButtonColor]);
 
+  React.useEffect(() => {
+    if (wrapperRef.current && accentColor) {
+      wrapperRef.current.style.setProperty('--sm-accent', accentColor);
+    }
+  }, [accentColor]);
+
   const animateText = useCallback((opening: boolean) => {
     const inner = textInnerRef.current;
     if (!inner) return;
@@ -386,7 +393,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
         className={
           (className ? className + ' ' : '') + 'staggered-menu-wrapper pointer-events-none relative w-full h-full z-40'
         }
-        style={accentColor ? ({ ['--sm-accent' as any]: accentColor } as React.CSSProperties) : undefined}
+        ref={wrapperRef}
         data-position={position}
         data-open={open || undefined}
       >
@@ -421,9 +428,8 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
               <img
                 src={logoUrl || '/logo.png'}
                 alt="Logo"
-                className="sm-logo-img block h-8 md:h-[4.5rem] w-auto object-contain scale-110"
+                className="sm-logo-img block h-8 md:h-[4.5rem] w-auto object-contain scale-110 sm-logo-img-bright"
                 draggable={false}
-                style={{ filter: 'brightness(1.8)' }}
               />
             </a>
           </div>
@@ -434,7 +440,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
               open ? 'text-black' : 'text-[#e9e9ef]'
             }`}
             aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
+            aria-expanded={open ? 'true' : 'false'}
             aria-controls="staggered-menu-panel"
             onClick={toggleMenu}
             type="button"
@@ -474,8 +480,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
           id="staggered-menu-panel"
           ref={panelRef}
           className="staggered-menu-panel absolute top-0 right-0 h-full bg-[#fdfaf5] flex flex-col p-[6em_2em_2em_2em] overflow-y-auto z-10 backdrop-blur-[12px] pointer-events-auto shadow-2xl"
-          style={{ WebkitBackdropFilter: 'blur(12px)' }}
-          aria-hidden={!open}
+          aria-hidden={!open ? 'true' : 'false'}
         >
           <div className="sm-panel-inner flex-1 flex flex-col gap-5">
             <ul
@@ -537,7 +542,9 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
       </div>
 
       <style>{`
-.sm-scope .staggered-menu-wrapper { position: relative; width: 100%; height: 100%; z-index: 40; pointer-events: none; }
+.sm-scope .staggered-menu-wrapper { position: relative; width: 100%; height: 100%; z-index: 40; pointer-events: none; --sm-accent: #5227FF; }
+.sm-scope .sm-logo-img-bright { filter: brightness(1.8); }
+.sm-scope .staggered-menu-panel { -webkit-backdrop-filter: blur(12px); }
 .sm-scope .staggered-menu-header { position: absolute; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; background: transparent; pointer-events: none; z-index: 20; }
 .sm-scope .staggered-menu-header > * { pointer-events: auto; }
 .sm-scope .sm-logo { display: flex; align-items: center; user-select: none; }

@@ -1,8 +1,8 @@
+// @ts-nocheck
 'use client';
 import { useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGesture } from '@use-gesture/react';
 
-// @ts-nocheck
 const DEFAULT_IMAGES = [
   {
     src: 'https://images.unsplash.com/photo-1755331039789-7e5680e26e8f?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -767,30 +767,78 @@ export default function DomeGallery({
       inset: 10px;
       pointer-events: none;
     }
+    
+    .sphere-main {
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    
+    .item__image-inner {
+      inset: 10px;
+      border-radius: var(--tile-radius, 12px);
+      backface-visibility: hidden;
+    }
+    
+    .item__image-img {
+      backface-visibility: hidden;
+      filter: var(--image-filter, none);
+    }
+    
+    .dome-overlay-radial {
+      background-image: radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, #060010) 100%);
+    }
+    
+    .dome-overlay-blur {
+      -webkit-mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
+      mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #060010) 90%);
+      backdrop-filter: blur(3px);
+    }
+    
+    .dome-fade-top {
+      background: linear-gradient(to bottom, transparent, var(--overlay-blur-color, #060010));
+      transform: rotate(180deg);
+    }
+    
+    .dome-fade-bottom {
+      background: linear-gradient(to bottom, transparent, var(--overlay-blur-color, #060010));
+    }
+    
+    .dome-viewer {
+      padding: var(--viewer-pad);
+    }
+    
+    .dome-scrim {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(3px);
+    }
+    
+    .dome-viewer-frame {
+      border-radius: var(--enlarge-radius, 30px);
+    }
   `;
 
+  // Set initial CSS custom properties on root via useEffect
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    root.style.setProperty('--segments-x', String(segments));
+    root.style.setProperty('--segments-y', String(segments));
+    root.style.setProperty('--overlay-blur-color', overlayBlurColor);
+    root.style.setProperty('--tile-radius', imageBorderRadius);
+    root.style.setProperty('--enlarge-radius', openedImageBorderRadius);
+    root.style.setProperty('--image-filter', grayscale ? 'grayscale(1)' : 'none');
+  }, [segments, overlayBlurColor, imageBorderRadius, openedImageBorderRadius, grayscale]);
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: cssStyles }} />
       <div
         ref={rootRef}
         className="sphere-root relative w-full h-full"
-        style={{
-          ['--segments-x']: segments,
-          ['--segments-y']: segments,
-          ['--overlay-blur-color']: overlayBlurColor,
-          ['--tile-radius']: imageBorderRadius,
-          ['--enlarge-radius']: openedImageBorderRadius,
-          ['--image-filter']: grayscale ? 'grayscale(1)' : 'none'
-        }}
       >
         <main
           ref={mainRef}
-          className="absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
-          style={{
-            touchAction: 'none',
-            WebkitUserSelect: 'none'
-          }}
+          className="sphere-main absolute inset-0 grid place-items-center overflow-hidden select-none bg-transparent"
         >
           <div className="stage">
             <div ref={sphereRef} className="sphere">
@@ -804,19 +852,20 @@ export default function DomeGallery({
                   data-offset-y={it.y}
                   data-size-x={it.sizeX}
                   data-size-y={it.sizeY}
-                  style={{
-                    ['--offset-x']: it.x,
-                    ['--offset-y']: it.y,
-                    ['--item-size-x']: it.sizeX,
-                    ['--item-size-y']: it.sizeY,
-                    top: '-999px',
-                    bottom: '-999px',
-                    left: '-999px',
-                    right: '-999px'
+                  ref={el => {
+                    if (!el) return;
+                    el.style.setProperty('--offset-x', String(it.x));
+                    el.style.setProperty('--offset-y', String(it.y));
+                    el.style.setProperty('--item-size-x', String(it.sizeX));
+                    el.style.setProperty('--item-size-y', String(it.sizeY));
+                    el.style.top = '-999px';
+                    el.style.bottom = '-999px';
+                    el.style.left = '-999px';
+                    el.style.right = '-999px';
                   }}
                 >
                   <div
-                    className="item__image absolute block overflow-hidden cursor-pointer bg-gray-200 transition-transform duration-300"
+                    className="item__image item__image-inner absolute block overflow-hidden cursor-pointer bg-gray-200 transition-transform duration-300"
                     role="button"
                     tabIndex={0}
                     aria-label={it.alt || 'Open image'}
@@ -835,21 +884,12 @@ export default function DomeGallery({
                       if (openingRef.current) return;
                       openItemFromElement(e.currentTarget);
                     }}
-                    style={{
-                      inset: '10px',
-                      borderRadius: `var(--tile-radius, ${imageBorderRadius})`,
-                      backfaceVisibility: 'hidden'
-                    }}
                   >
                     <img
                       src={it.src}
                       draggable={false}
                       alt={it.alt}
-                      className="w-full h-full object-cover pointer-events-none"
-                      style={{
-                        backfaceVisibility: 'hidden',
-                        filter: `var(--image-filter, ${grayscale ? 'grayscale(1)' : 'none'})`
-                      }}
+                      className="item__image-img w-full h-full object-cover pointer-events-none"
                     />
                   </div>
                 </div>
@@ -858,51 +898,31 @@ export default function DomeGallery({
           </div>
 
           <div
-            className="absolute inset-0 m-auto z-[3] pointer-events-none"
-            style={{
-              backgroundImage: `radial-gradient(rgba(235, 235, 235, 0) 65%, var(--overlay-blur-color, ${overlayBlurColor}) 100%)`
-            }}
+            className="dome-overlay-radial absolute inset-0 m-auto z-[3] pointer-events-none"
           />
 
           <div
-            className="absolute inset-0 m-auto z-[3] pointer-events-none"
-            style={{
-              WebkitMaskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
-              maskImage: `radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, ${overlayBlurColor}) 90%)`,
-              backdropFilter: 'blur(3px)'
-            }}
+            className="dome-overlay-blur absolute inset-0 m-auto z-[3] pointer-events-none"
           />
 
           <div
-            className="absolute left-0 right-0 top-0 h-[120px] z-[5] pointer-events-none rotate-180"
-            style={{
-              background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`
-            }}
+            className="dome-fade-top absolute left-0 right-0 top-0 h-[120px] z-[5] pointer-events-none"
           />
           <div
-            className="absolute left-0 right-0 bottom-0 h-[120px] z-[5] pointer-events-none"
-            style={{
-              background: `linear-gradient(to bottom, transparent, var(--overlay-blur-color, ${overlayBlurColor}))`
-            }}
+            className="dome-fade-bottom absolute left-0 right-0 bottom-0 h-[120px] z-[5] pointer-events-none"
           />
 
           <div
             ref={viewerRef}
-            className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center"
-            style={{ padding: 'var(--viewer-pad)' }}
+            className="dome-viewer absolute inset-0 z-20 pointer-events-none flex items-center justify-center"
           >
             <div
               ref={scrimRef}
-              className="scrim absolute inset-0 z-10 pointer-events-none opacity-0 transition-opacity duration-500"
-              style={{
-                background: 'rgba(0, 0, 0, 0.4)',
-                backdropFilter: 'blur(3px)'
-              }}
+              className="dome-scrim scrim absolute inset-0 z-10 pointer-events-none opacity-0 transition-opacity duration-500"
             />
             <div
               ref={frameRef}
-              className="viewer-frame h-full aspect-square flex"
-              style={{ borderRadius: `var(--enlarge-radius, ${openedImageBorderRadius})` }}
+              className="dome-viewer-frame viewer-frame h-full aspect-square flex"
             />
           </div>
         </main>

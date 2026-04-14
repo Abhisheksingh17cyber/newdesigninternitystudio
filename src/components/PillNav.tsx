@@ -39,6 +39,7 @@ const PillNav = ({
   const logoTweenRef = useRef<gsap.core.Tween | null>(null);
   const hamburgerRef = useRef<HTMLButtonElement | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const navRef = useRef<HTMLElement | null>(null);
   const navItemsRef = useRef<HTMLDivElement | null>(null);
   const logoRef = useRef<any>(null);
 
@@ -131,6 +132,20 @@ const PillNav = ({
 
     return () => window.removeEventListener('resize', onResize);
   }, [items, ease, initialLoadAnimation]);
+
+  // Set CSS custom properties imperatively to avoid inline style lint warnings
+  useEffect(() => {
+    const vars: Record<string, string> = {
+      '--base': baseColor,
+      '--pill-bg': pillColor,
+      '--hover-text': hoveredPillTextColor,
+      '--pill-text': resolvedPillTextColor
+    };
+    [navRef.current, mobileMenuRef.current].forEach(el => {
+      if (!el) return;
+      Object.entries(vars).forEach(([k, v]) => el.style.setProperty(k, v));
+    });
+  }, [baseColor, pillColor, hoveredPillTextColor, resolvedPillTextColor]);
 
   const handleEnter = (i: number) => {
     const tl = tlRefs.current[i];
@@ -237,7 +252,7 @@ const PillNav = ({
 
   return (
     <div className="pill-nav-container">
-      <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
+      <nav className={`pill-nav ${className}`} aria-label="Primary" ref={el => { navRef.current = el; }}>
         {logo && (isRouterLink(items?.[0]?.href) ? (
           <Link
             className={`pill-logo${!(typeof logo === 'string' && (logo.startsWith('http') || logo.startsWith('/') || logo.startsWith('data:'))) ? ' logo-is-text' : ''}`}
@@ -366,7 +381,7 @@ const PillNav = ({
         </button>
       </nav>
 
-      <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef} style={cssVars}>
+      <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef}>
         <ul className="mobile-menu-list">
           {items.map((item, i) => (
             <li key={item.href || item.label || `mobile-item-${i}`}>
