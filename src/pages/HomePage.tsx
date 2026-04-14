@@ -46,7 +46,7 @@ const Hero = ({ onBook }: { onBook: () => void }) => {
 };
 
 const FeaturedIn = () => {
-  const text = 'VOGUE        TimeOut        ELLE        BAZAAR        Wallpaper*        AD        ';
+  const text = 'Internity Studio        Internity Studio        Internity Studio        Internity Studio        ';
   return (
     <div className="bg-atelier-bg border-y border-atelier-accent/10 overflow-hidden opacity-30 hover:opacity-100 transition-opacity duration-500">
       <CurvedLoop 
